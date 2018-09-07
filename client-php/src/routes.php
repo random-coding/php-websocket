@@ -4,10 +4,10 @@
 
     $app->post('/', function (Request $request, Response $response, array $args) {
         try {
-            // get data from the db
+            // decode data from the caller
             $GLOBALS['body'] = json_decode($request->getBody());
             /**
-             * Sent to Socket
+             * Send to Socket
              */
             \Ratchet\Client\connect('ws://127.0.0.1:8683')->then(function($conn) {
                 $conn->send(
@@ -18,11 +18,11 @@
                 );
                 $conn->close();
             }, function ($e) {
-                $this->logger->info("No se puede conectar: {$e->getMessage()}");
+                $this->logger->info("Can not connect: {$e->getMessage()}");
             });
             return json_encode(array("status" => true));
         } catch (Exception $e) {
-            $this->logger->info("Excepción capturada: ", $e->getMessage());
+            $this->logger->info("Exception: ", $e->getMessage());
             return json_encode(array("status" => false));
         }
     });

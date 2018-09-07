@@ -7,12 +7,14 @@
 
     require __DIR__ . './vendor/autoload.php';
 
+    // configurations
     $server = IoServer::factory(
         new HttpServer(
             new WsServer(
                 new SocketController()
             )
         ),
-        8080
+        8080 // the port of the web socket
     );
+
     $server->run();
